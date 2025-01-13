@@ -82,8 +82,6 @@ class MyApp extends StatelessWidget {
         ),
         // Bottom Navigation Bar with notched design
         bottomNavigationBar: BottomAppBar(
-          notchMargin: 6.0, // Space between FAB and BottomAppBar
-          shape: const CircularNotchedRectangle(),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             mainAxisSize: MainAxisSize.max,
@@ -101,31 +99,21 @@ class MyApp extends StatelessWidget {
                   // Favorites navigation logic
                 },
               ),
-              const SizedBox(width: 48), // Space for Floating Action Button
+              IconButton(
+                icon: const Icon(Icons.receipt),
+                onPressed: () {
+                  // Add receipt action
+                },
+              ),
               IconButton(
                 icon: const Icon(Icons.person),
                 onPressed: () {
                   // Profile navigation logic
                 },
               ),
-              IconButton(
-                icon: const Icon(Icons.menu),
-                onPressed: () {
-                  // Menu navigation logic
-                },
-              ),
             ],
           ),
         ),
-        // Floating Action Button in the center of bottom bar
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // FAB action logic
-          },
-          backgroundColor: Colors.green,
-          child: const Icon(Icons.add),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
   }
