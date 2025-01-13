@@ -38,30 +38,21 @@ class MyApp extends StatelessWidget {
                   // Add favorites action
                 },
               ),
-              const SizedBox(width: 48), // Space for FAB
+              IconButton(
+                icon: const Icon(Icons.receipt),
+                onPressed: () {
+                  // Add receipt action
+                },
+              ),
               IconButton(
                 icon: const Icon(Icons.person),
                 onPressed: () {
                   // Add profile action
                 },
               ),
-              IconButton(
-                icon: const Icon(Icons.menu),
-                onPressed: () {
-                  // Add menu action
-                },
-              ),
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Add your action here
-          },
-          backgroundColor: Colors.green,
-          child: const Icon(Icons.add),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
   }
