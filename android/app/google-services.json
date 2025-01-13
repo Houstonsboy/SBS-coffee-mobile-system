@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "285872124510",
+    "project_id": "coffeesystem-f5071",
+    "storage_bucket": "coffeesystem-f5071.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:285872124510:android:b3e398a3e01b38084cbacf",
+        "android_client_info": {
+          "package_name": "com.example.coffee_system"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOVUh9j7yxcH6Ig8NaGBbNEcoRwpR7R0M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
