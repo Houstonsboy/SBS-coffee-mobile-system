@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'maindashboardwidgets/searchicon.dart';
-import 'maindashboardwidgets/menuitems.dart';
+import 'maindashboardwidgets/menuitems.dart'; // Import MenuItems
+import 'maindashboardwidgets/menuscrollable.dart'; // Import MenuScrollable
 
-import 'maindashboardwidgets/menuscrollable.dart';
+class dashboard extends StatefulWidget {
+  @override
+  _dashboardState createState() => _dashboardState();
+}
 
-class dashboard extends StatelessWidget {
+class _dashboardState extends State<dashboard> {
+  // Variable to store the active index
+  int _activeIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -14,7 +21,6 @@ class dashboard extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Coffee System'),
         centerTitle: true,
-        
       ),
       body: Column(
         children: [
@@ -32,15 +38,18 @@ class dashboard extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(15.0),
-            child: MenuItems(),
+            child: MenuItems(
+              onItemTapped: (index) {
+                setState(() {
+                  _activeIndex = index;
+                });
+              },
+            ),
           ),
-          Expanded(  // This ensures the MenuScrollable takes the remaining space
+          Expanded(
             child: Padding(
               padding: const EdgeInsets.all(15.0),
-              child: Container(
-                height: 200, // Or any fixed height you want
-                child: MenuScrollable(),
-              ),
+              child: MenuScrollable(selectedIndex: _activeIndex), // Pass the selectedIndex to MenuScrollable
             ),
           ),
         ],
