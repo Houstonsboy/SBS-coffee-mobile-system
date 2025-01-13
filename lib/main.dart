@@ -20,8 +20,6 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         body: dashboard(),
         bottomNavigationBar: BottomAppBar(
-          notchMargin: 6.0,
-          shape: const CircularNotchedRectangle(),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             mainAxisSize: MainAxisSize.max,

@@ -13,9 +13,8 @@ class SearchIcon extends StatelessWidget {
        
         boxShadow: [
           BoxShadow(
-            color: CupertinoColors.black.withOpacity(0.3), // Set shadow color
+            color: CupertinoColors.black.withOpacity(0.1), // Set shadow color
             spreadRadius: 1.0, // Set spread radius
-            blurRadius: 3.0, // Set blur radius
           ),
         ],
       ),

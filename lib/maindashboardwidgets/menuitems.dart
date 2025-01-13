@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'menuscrollable.dart'; // Import the MenuScrollable widget
 
@@ -45,6 +46,15 @@ class MenuItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: TextButton(
+        style: TextButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+            side: BorderSide(
+              color: CupertinoColors.systemBrown,
+              width: 1.0,
+            )
+          ),
+        ),
         onPressed: () {
           onTap(index); // Update the active tab index when a menu item is tapped
         },
