@@ -14,26 +14,7 @@ class dashboard extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Coffee System'),
         centerTitle: true,
-        flexibleSpace: PreferredSize(
-          preferredSize: const Size.fromHeight(56.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.home),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: const Icon(Icons.search),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: const Icon(Icons.settings),
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ),
+        
       ),
       body: Column(
         children: [
