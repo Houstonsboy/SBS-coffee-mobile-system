@@ -1,3 +1,4 @@
+import 'package:coffee_system/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../MainDashboardwidgets/dashboard.dart';
@@ -22,7 +23,7 @@ class LoginForm extends StatelessWidget {
       // Redirect to Dashboard on successful login
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => dashboard()),
+        MaterialPageRoute(builder: (context) => MainScreen()),
       );
     } catch (e) {
       // Display error message if login fails
