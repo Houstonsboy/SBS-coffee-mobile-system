@@ -2,6 +2,7 @@ import 'package:coffee_system/AuthHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'firebase_options.dart';
 import 'MainDashboardwidgets/dashboard.dart';
 import 'homepage/homepage.dart';
@@ -9,12 +10,20 @@ import 'Authentication/auth_screen.dart';
 
 // Initialize Firebase before running the app
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Future.delayed(const Duration(seconds: 2), (){
+    FlutterNativeSplash.remove();
+  });
+    
+    
+
   runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -40,6 +49,17 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  @override
+  void initState() {
+    super.initState();
+    initialization();
+  }
+  void initialization() async{
+    print('showing splash');
+    await Future.delayed(const Duration(seconds: 2));
+    print('removing splash');
+    FlutterNativeSplash.remove();
+  }
   // Index to keep track of the selected tab
   int _selectedIndex = 0;
 
