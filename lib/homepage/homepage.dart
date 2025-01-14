@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../maindashboardwidgets/searchicon.dart';
+import '../MainDashboardwidgets/searchicon.dart';
 import 'ordertab.dart';
 
 class HomePage extends StatelessWidget {
