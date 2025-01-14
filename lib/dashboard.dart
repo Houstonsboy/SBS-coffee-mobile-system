@@ -18,10 +18,7 @@ class _dashboardState extends State<dashboard> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Coffee System'),
-        centerTitle: true,
-      ),
+      
       body: Column(
         children: [
           Padding(
