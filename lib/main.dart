@@ -1,3 +1,4 @@
+import 'package:coffee_system/components/bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -78,33 +79,7 @@ class _MainScreenState extends State<MainScreen> {
         centerTitle: true,
       ),
       body: _pages[_selectedIndex], // Dynamically change the body
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex, // Set the current active tab
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index; // Update the selected index
-          });
-        },
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: 'Menu',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.receipt),
-            label: 'Receipts',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
+      bottomNavigationBar:MyBottomNavBar(),
     );
   }
 }
