@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'maindashboardwidgets/searchicon.dart';
-import 'maindashboardwidgets/menuitems.dart'; // Import MenuItems
-import 'maindashboardwidgets/menuscrollable.dart'; // Import MenuScrollable
+import 'searchicon.dart';
+import 'menuitems.dart'; // Import MenuItems
+import 'menuscrollable.dart'; // Import MenuScrollable
 
 class dashboard extends StatefulWidget {
   @override
