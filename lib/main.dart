@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_options.dart';
 import 'dashboard.dart';
 import 'homepage/homepage.dart';
+import 'Authentication/auth_screen.dart';
 
 // Initialize Firebase before running the app
 void main() async {
@@ -15,18 +16,16 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Coffee System',
+      title: 'Strathmore Coffee Shop',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-        useMaterial3: true,
+        primarySwatch: Colors.brown,
       ),
-      debugShowCheckedModeBanner: false,
-      home: const MainScreen(),
+      home: const AuthScreen(),
     );
   }
 }
