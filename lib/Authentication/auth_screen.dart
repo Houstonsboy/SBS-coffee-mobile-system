@@ -87,7 +87,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 20),
-                    if (_isLogin) const LoginForm() else const SignUpForm(),
+                    if (_isLogin)  LoginForm() else const SignUpForm(),
                     const SizedBox(height: 20),
                     TextButton(
                       onPressed: () {
