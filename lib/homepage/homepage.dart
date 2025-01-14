@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../maindashboardwidgets/searchicon.dart';
+import 'ordertab.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -110,7 +111,11 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: OrderTab(),
+          ),
         ],
       ),
     );
