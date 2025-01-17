@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffee_system/main.dart';
+// Import the global file
+import 'global.dart';
 
 class SignUpForm extends StatefulWidget {
   @override
@@ -8,23 +11,29 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController schoolIdController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  String? selectedGender;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> signUp(BuildContext context) async {
-    final String firstName = firstNameController.text.trim();
-    final String lastName = lastNameController.text.trim();
-    final String phone = phoneController.text.trim();
+    final String username = usernameController.text.trim();
     final String email = emailController.text.trim();
+    final String phone = phoneController.text.trim();
+    final String schoolId = schoolIdController.text.trim();
     final String password = passwordController.text;
 
-    if (firstName.isEmpty || lastName.isEmpty || phone.isEmpty || email.isEmpty || password.isEmpty) {
+    if (username.isEmpty ||
+        email.isEmpty ||
+        phone.isEmpty ||
+        schoolId.isEmpty ||
+        password.isEmpty ||
+        selectedGender == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('All fields are required')),
       );
@@ -38,19 +47,38 @@ class _SignUpFormState extends State<SignUpForm> {
         password: password,
       );
 
-      // Save user details (excluding password) in Firestore
-      await _firestore.collection('users').doc(userCredential.user?.uid).set({
-        'firstName': firstName,
-        'lastName': lastName,
-        'phone': phone,
+      final String? userId = userCredential.user?.uid;
+
+      // Save user details in Firestore
+      await _firestore.collection('users').doc(userId).set({
+        'username': username,
         'email': email,
+        'phone': phone,
+        'schoolId': schoolId,
+        'gender': selectedGender,
         'createdAt': FieldValue.serverTimestamp(),
       });
 
-      // Show success message and clear fields
+      // Set global variables
+      setState(() {
+        globalUserId = userId;
+        globalUsername = username;
+        globalEmail = email;
+        isUserLoggedIn = true;
+      });
+
+      // Navigate to MainScreen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MainScreen()),
+      );
+
+      // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Account created successfully')),
       );
+
+      // Clear fields
       clearFields();
     } catch (e) {
       // Show error message
@@ -61,11 +89,14 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 
   void clearFields() {
-    firstNameController.clear();
-    lastNameController.clear();
-    phoneController.clear();
+    usernameController.clear();
     emailController.clear();
+    phoneController.clear();
+    schoolIdController.clear();
     passwordController.clear();
+    setState(() {
+      selectedGender = null;
+    });
   }
 
   @override
@@ -73,36 +104,11 @@ class _SignUpFormState extends State<SignUpForm> {
     return Column(
       children: [
         TextField(
-          controller: firstNameController,
+          controller: usernameController,
           decoration: const InputDecoration(
-            labelText: "Enter First Name",
+            labelText: "Enter Username",
             prefixIcon: Icon(Icons.person),
-            labelStyle: TextStyle(color: Colors.black),
-            prefixIconColor: Colors.black,
           ),
-          style: const TextStyle(color: Colors.black),
-        ),
-        const SizedBox(height: 10),
-        TextField(
-          controller: lastNameController,
-          decoration: const InputDecoration(
-            labelText: "Enter Last Name",
-            prefixIcon: Icon(Icons.person),
-            labelStyle: TextStyle(color: Colors.black),
-            prefixIconColor: Colors.black,
-          ),
-          style: const TextStyle(color: Colors.black),
-        ),
-        const SizedBox(height: 10),
-        TextField(
-          controller: phoneController,
-          decoration: const InputDecoration(
-            labelText: "Enter Phone Number",
-            prefixIcon: Icon(Icons.phone),
-            labelStyle: TextStyle(color: Colors.black),
-            prefixIconColor: Colors.black,
-          ),
-          style: const TextStyle(color: Colors.black),
         ),
         const SizedBox(height: 10),
         TextField(
@@ -110,10 +116,41 @@ class _SignUpFormState extends State<SignUpForm> {
           decoration: const InputDecoration(
             labelText: "Enter Email Address",
             prefixIcon: Icon(Icons.email),
-            labelStyle: TextStyle(color: Colors.black),
-            prefixIconColor: Colors.black,
           ),
-          style: const TextStyle(color: Colors.black),
+        ),
+        const SizedBox(height: 10),
+        TextField(
+          controller: phoneController,
+          decoration: const InputDecoration(
+            labelText: "Enter Phone Number",
+            prefixIcon: Icon(Icons.phone),
+          ),
+        ),
+        const SizedBox(height: 10),
+        TextField(
+          controller: schoolIdController,
+          decoration: const InputDecoration(
+            labelText: "Enter School ID",
+            prefixIcon: Icon(Icons.school),
+          ),
+        ),
+        const SizedBox(height: 10),
+        DropdownButtonFormField<String>(
+          value: selectedGender,
+          decoration: const InputDecoration(
+            labelText: "Select Gender",
+            prefixIcon: Icon(Icons.person_outline),
+          ),
+          items: const [
+            DropdownMenuItem(value: "Male", child: Text("Male")),
+            DropdownMenuItem(value: "Female", child: Text("Female")),
+            DropdownMenuItem(value: "Prefer not to say", child: Text("Prefer not to say")),
+          ],
+          onChanged: (value) {
+            setState(() {
+              selectedGender = value;
+            });
+          },
         ),
         const SizedBox(height: 10),
         TextField(
@@ -122,20 +159,12 @@ class _SignUpFormState extends State<SignUpForm> {
           decoration: const InputDecoration(
             labelText: "Enter Password",
             prefixIcon: Icon(Icons.lock),
-            labelStyle: TextStyle(color: Colors.black),
-            prefixIconColor: Colors.black,
           ),
-          style: const TextStyle(color: Colors.black),
         ),
         const SizedBox(height: 20),
         ElevatedButton(
           onPressed: () => signUp(context),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFA57C50),
-            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-            textStyle: const TextStyle(fontSize: 18),
-          ),
-          child: const Text("Sign up", style: TextStyle(color: Colors.black)),
+          child: const Text("Sign up"),
         ),
       ],
     );

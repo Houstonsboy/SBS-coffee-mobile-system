@@ -4,6 +4,7 @@ import '../Authentication/auth_screen.dart'; // Import your login page or AuthHa
 import 'searchicon.dart';
 import 'menuitems.dart'; // Import MenuItems
 import 'menuscrollable.dart'; // Import MenuScrollable
+import '../Authentication/global.dart'; // Import the global.dart file
 
 class dashboard extends StatefulWidget {
   @override
@@ -62,6 +63,14 @@ class _dashboardState extends State<dashboard> {
             padding: const EdgeInsets.all(15.0),
             child: SearchIcon(),
           ),
+          Text(
+              'User ID: $globalUsername',  // Display the userId
+              style: const TextStyle(fontSize: 18),
+            ),
+              Text(
+              'User ID: $globalUserId',  // Display the userId
+              style: const TextStyle(fontSize: 18),
+            ),
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: MenuItems(

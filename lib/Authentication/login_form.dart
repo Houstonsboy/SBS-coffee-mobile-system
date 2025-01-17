@@ -2,6 +2,7 @@ import 'package:coffee_system/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../MainDashboardwidgets/dashboard.dart';
+import 'global.dart';  // Import the global.dart file
 
 class LoginForm extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -20,11 +21,23 @@ class LoginForm extends StatelessWidget {
         password: password,
       );
 
-      // Redirect to Dashboard on successful login
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => MainScreen()),
-      );
+      // Get the user ID after login
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        // Store the userId globally
+        globalUserId = user.uid;
+
+        // Log the userId to the terminal
+        print('Logged in userId: $globalUserId');
+
+        // Redirect to Dashboard on successful login
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MainScreen()),
+        );
+      } else {
+        print('No user found after login.');
+      }
     } catch (e) {
       // Display error message if login fails
       ScaffoldMessenger.of(context).showSnackBar(

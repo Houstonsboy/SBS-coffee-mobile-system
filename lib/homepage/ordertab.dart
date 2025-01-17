@@ -1,5 +1,6 @@
+// order_tab.dart
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import '../firebase/orders.dart';  // Import the firebase.dart file
 
 class OrderTab extends StatefulWidget {
   const OrderTab({super.key});
@@ -19,31 +20,12 @@ class _OrderTabState extends State<OrderTab> {
   }
 
   Future<void> _fetchCoffeeName() async {
-    try {
-      var querySnapshot = await FirebaseFirestore.instance
-          .collection('coffee')
-          .where('price', isEqualTo: 200)
-          .get();
+    String? coffeeTitle = await fetchCoffeeName();  // Call the function from firebase.dart
 
-      if (querySnapshot.docs.isNotEmpty) {
-        var document = querySnapshot.docs.first;
-        setState(() {
-          coffeeName = document['name'];
-          isLoading = false;
-        });
-      } else {
-        setState(() {
-          coffeeName = 'No Coffee Found';
-          isLoading = false;
-        });
-      }
-    } catch (e) {
-      setState(() {
-        coffeeName = 'Error fetching data';
-        isLoading = false;
-      });
-      print('Error fetching document: $e');
-    }
+    setState(() {
+      coffeeName = coffeeTitle;
+      isLoading = false;
+    });
   }
 
   @override
