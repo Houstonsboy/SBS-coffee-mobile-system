@@ -7,6 +7,8 @@ import 'firebase_options.dart';
 import 'MainDashboardwidgets/dashboard.dart';
 import 'homepage/homepage.dart';
 import 'Authentication/auth_screen.dart';
+import  'Authentication/global.dart';
+import 'addcoffee.dart';
 
 // Initialize Firebase before running the app
 void main() async {
@@ -67,7 +69,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _pages = [
     const HomePage(),
     dashboard(),
-    const Center(child: Text('Receipts Page')),
+    AddCoffeeItem(),
     const Center(child: Text('Profile Page')),
   ];
 
