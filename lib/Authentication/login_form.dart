@@ -1,7 +1,6 @@
-import 'package:coffee_system/main.dart';
+import 'package:coffee_system/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../MainDashboardwidgets/dashboard.dart';
 import 'global.dart';
 class LoginForm extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();

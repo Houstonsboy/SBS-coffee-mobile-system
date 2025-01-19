@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../MainDashboardwidgets/searchicon.dart';
+import '../dashboard/searchicon.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

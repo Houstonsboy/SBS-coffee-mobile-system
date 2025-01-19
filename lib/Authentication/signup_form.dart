@@ -1,8 +1,7 @@
+import 'package:coffee_system/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:coffee_system/main.dart';
-// Import the global file
 import 'global.dart';
 
 class SignUpForm extends StatefulWidget {
