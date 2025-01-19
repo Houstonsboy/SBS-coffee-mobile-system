@@ -4,11 +4,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'firebase_options.dart';
+import 'package:provider/provider.dart';
 import 'MainDashboardwidgets/dashboard.dart';
 import 'homepage/homepage.dart';
 import 'Authentication/auth_screen.dart';
 import  'Authentication/global.dart';
 import 'addcoffee.dart';
+import 'UserProvider.dart';
 
 // Initialize Firebase before running the app
 void main() async {
@@ -23,7 +25,10 @@ void main() async {
     
     
 
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (_) => UserProvider(),
+      child: MyApp(),
+    ));
 }
 
 
