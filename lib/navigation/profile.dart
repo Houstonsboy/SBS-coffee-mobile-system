@@ -75,6 +75,10 @@ class _ProfileState extends State<Profile> {
                     'User ID: $globalUserId',
                     style: const TextStyle(fontSize: 18),
                   ),
+                  Text(
+                    'Phone: $globalPhone',
+                    style: const TextStyle(fontSize: 18),
+                  ),
                 ],
               ),
             ),
