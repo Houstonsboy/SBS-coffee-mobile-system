@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_system/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../MainDashboardwidgets/dashboard.dart';
-
+import 'global.dart';
 class LoginForm extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -16,13 +15,19 @@ class LoginForm extends StatelessWidget {
 
     try {
       // Firebase authentication logic
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      // Call the function to ensure category consistency
-      await ensureCategoryConsistency(context);
+      // Retrieve user details
+      final User? user = userCredential.user;
+      final String userId = user?.uid ?? '';
+      final String username = user?.email ?? '';
+
+      // Save userId and username globally
+      globalUserId = userId;
+      globalUsername = username;
 
       // Redirect to Dashboard on successful login
       Navigator.pushReplacement(
@@ -33,41 +38,6 @@ class LoginForm extends StatelessWidget {
       // Display error message if login fails
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(e.toString())),
-      );
-    }
-  }
-
-  Future<void> ensureCategoryConsistency(BuildContext context) async {
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    final String collectionName = "coffee"; // Replace with your collection name
-
-    try {
-      final QuerySnapshot snapshot =
-          await firestore.collection(collectionName).get();
-
-      int updatedCount = 0;
-
-      for (var doc in snapshot.docs) {
-        final data = doc.data() as Map<String, dynamic>;
-
-        // Check if the category needs to be updated
-        if (data['category'] != 'Classic Drinks') {
-          await doc.reference.update({'category': 'Classic Drinks'});
-          updatedCount++;
-        }
-      }
-
-      // Show status
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Successfully updated $updatedCount documents.'),
-        ),
-      );
-
-      // Optionally, delete the function after running successfully
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
       );
     }
   }

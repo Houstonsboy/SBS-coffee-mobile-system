@@ -27,7 +27,7 @@ class AddCoffeeItem extends StatelessWidget {
       await _firestore.collection('coffee').add({
         'coffee_title': coffeeTitle,
         'price': price,
-        'category': 'Summer Coolers',
+        'category': 'Signature Drinks',
         'available': true,
       });
 
