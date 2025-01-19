@@ -1,4 +1,5 @@
 // global.dart
+import 'package:flutter/material.dart';
 
 // Global variable to store the userId
 String? globalUserId;

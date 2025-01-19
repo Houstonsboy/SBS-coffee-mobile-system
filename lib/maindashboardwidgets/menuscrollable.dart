@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../Authentication/global.dart';  // Import global.dart for globalUserId
+import '../order/orderpage.dart';     // Import order.dart
 
 class MenuScrollable extends StatelessWidget {
   final int selectedIndex;
@@ -12,6 +14,25 @@ class MenuScrollable extends StatelessWidget {
   };
 
   MenuScrollable({required this.selectedIndex});
+
+  void navigateToOrder(BuildContext context, Map<String, dynamic> coffeeData) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OrderPage(),
+        settings: RouteSettings(
+          arguments: {
+            'coffee_title': coffeeData['coffee_title'],
+            'price': coffeeData['price'],
+            'single': coffeeData['single'],
+            'double': coffeeData['double'],
+            'globalUserId': globalUserId,  // From global.dart
+            'isClassicDrink': coffeeData['category'] == 'Classic Drinks',
+          },
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,54 +59,61 @@ class MenuScrollable extends StatelessWidget {
           itemBuilder: (context, index) {
             final doc = snapshot.data!.docs[index];
             final isClassicDrink = categoryMap[selectedIndex] == 'Classic Drinks';
+            final data = doc.data() as Map<String, dynamic>;
 
-            return Container(
-              margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-              height: 100.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12.0),
-                border: Border.all(color: Colors.brown.shade200),
-                color: Colors.white,
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        doc['coffee_title'] ?? 'Untitled',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w500,
+            return GestureDetector(
+              onTap: () => navigateToOrder(context, {
+                ...data,
+                'category': categoryMap[selectedIndex],
+              }),
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                height: 100.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.0),
+                  border: Border.all(color: Colors.brown.shade200),
+                  color: Colors.white,
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          data['coffee_title'] ?? 'Untitled',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                    ),
-                    if (isClassicDrink)
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            'Single: Ksh ${(doc.data() as Map<String, dynamic>)['single']?.toString() ?? 'N/A'}',
-                            style: TextStyle(fontSize: 16.0),
+                      if (isClassicDrink)
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              'Single: Ksh ${data['single']?.toString() ?? 'N/A'}',
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                            SizedBox(height: 4.0),
+                            Text(
+                              'Double: Ksh ${data['double']?.toString() ?? 'N/A'}',
+                              style: TextStyle(fontSize: 16.0),
+                            ),
+                          ],
+                        )
+                      else
+                        Text(
+                          'Ksh ${data['price']?.toString() ?? 'N/A'}',
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w500,
                           ),
-                          SizedBox(height: 4.0),
-                          Text(
-                            'Double: Ksh ${(doc.data() as Map<String, dynamic>)['double']?.toString() ?? 'N/A'}',
-                            style: TextStyle(fontSize: 16.0),
-                          ),
-                        ],
-                      )
-                    else
-                      Text(
-                        'Ksh ${(doc.data() as Map<String, dynamic>)['price']?.toString() ?? 'N/A'}',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w500,
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );
