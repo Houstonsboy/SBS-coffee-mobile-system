@@ -1,7 +1,5 @@
-import 'package:coffee_system/Authentication/global.dart';
 import 'package:flutter/material.dart';
 import '../dashboard/searchicon.dart';
-import '../homepage/ordertab.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

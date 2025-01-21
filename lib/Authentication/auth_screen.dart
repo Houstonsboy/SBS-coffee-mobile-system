@@ -4,7 +4,7 @@ import 'login_form.dart';
 import 'signup_form.dart';
 
 class AuthScreen extends StatefulWidget {
-  const AuthScreen({Key? key}) : super(key: key);
+  const AuthScreen({super.key});
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -87,7 +87,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 20),
-                    if (_isLogin)  LoginForm() else  SignUpForm(),
+                    if (_isLogin) LoginForm() else SignUpForm(),
                     const SizedBox(height: 20),
                     TextButton(
                       onPressed: () {

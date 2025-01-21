@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../Authentication/global.dart';  // Import global.dart for globalUserId
-import '../order/orderpage.dart';     // Import order.dart
+import '../Authentication/global.dart'; // Import global.dart for globalUserId
+import '../order/orderpage.dart'; // Import order.dart
 
 class MenuScrollable extends StatelessWidget {
   final int selectedIndex;
@@ -13,7 +13,7 @@ class MenuScrollable extends StatelessWidget {
     4: 'Signature Drinks',
   };
 
-  MenuScrollable({required this.selectedIndex});
+  MenuScrollable({super.key, required this.selectedIndex});
 
   void navigateToOrder(BuildContext context, Map<String, dynamic> coffeeData) {
     Navigator.push(
@@ -26,7 +26,7 @@ class MenuScrollable extends StatelessWidget {
             'price': coffeeData['price'],
             'single': coffeeData['single'],
             'double': coffeeData['double'],
-            'globalUserId': globalUserId,  // From global.dart
+            'globalUserId': globalUserId, // From global.dart
             'isClassicDrink': coffeeData['category'] == 'Classic Drinks',
           },
         ),
@@ -58,7 +58,8 @@ class MenuScrollable extends StatelessWidget {
           itemCount: snapshot.data!.docs.length,
           itemBuilder: (context, index) {
             final doc = snapshot.data!.docs[index];
-            final isClassicDrink = categoryMap[selectedIndex] == 'Classic Drinks';
+            final isClassicDrink =
+                categoryMap[selectedIndex] == 'Classic Drinks';
             final data = doc.data() as Map<String, dynamic>;
 
             return GestureDetector(

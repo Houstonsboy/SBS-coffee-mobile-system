@@ -6,7 +6,7 @@ import 'menuscrollable.dart';
 class MenuItems extends StatefulWidget {
   final Function(int) onItemTapped;
 
-  const MenuItems({required this.onItemTapped, Key? key}) : super(key: key);
+  const MenuItems({required this.onItemTapped, super.key});
 
   @override
   _MenuItemsState createState() => _MenuItemsState();
@@ -48,7 +48,8 @@ class MenuItem extends StatelessWidget {
   final Function(int) onTap;
   final bool isSelected;
 
-  const MenuItem(this.label, this.index, this.onTap, this.isSelected);
+  const MenuItem(this.label, this.index, this.onTap, this.isSelected,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,8 @@ class MenuItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: TextButton(
         style: TextButton.styleFrom(
-          backgroundColor: isSelected ? Colors.brown.shade50 : Colors.transparent,
+          backgroundColor:
+              isSelected ? Colors.brown.shade50 : Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
             side: BorderSide(

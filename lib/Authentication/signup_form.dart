@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'global.dart';
 
 class SignUpForm extends StatefulWidget {
+  const SignUpForm({super.key});
+
   @override
   _SignUpFormState createState() => _SignUpFormState();
 }
@@ -41,7 +43,8 @@ class _SignUpFormState extends State<SignUpForm> {
 
     try {
       // Create user in Firebase Authentication
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -143,7 +146,8 @@ class _SignUpFormState extends State<SignUpForm> {
           items: const [
             DropdownMenuItem(value: "Male", child: Text("Male")),
             DropdownMenuItem(value: "Female", child: Text("Female")),
-            DropdownMenuItem(value: "Prefer not to say", child: Text("Prefer not to say")),
+            DropdownMenuItem(
+                value: "Prefer not to say", child: Text("Prefer not to say")),
           ],
           onChanged: (value) {
             setState(() {

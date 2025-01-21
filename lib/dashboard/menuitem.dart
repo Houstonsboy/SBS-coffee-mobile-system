@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MenuItems extends StatefulWidget {
+  const MenuItems({super.key});
+
   @override
   _MenuItemsState createState() => _MenuItemsState();
 }
@@ -37,15 +39,15 @@ class _MenuItemsState extends State<MenuItems> {
             ),
           ),
         ),
-        
+
         // Scrollable Container List
         Expanded(
           child: ListView.builder(
             itemCount: 10,
             itemBuilder: (context, index) {
               return Container(
-                color: index % 2 == 0 
-                    ? categoryColors[_activeIndex][0] 
+                color: index % 2 == 0
+                    ? categoryColors[_activeIndex][0]
                     : categoryColors[_activeIndex][1],
                 height: 100.0,
                 child: Center(
@@ -96,7 +98,8 @@ class MenuItem extends StatelessWidget {
   final int activeIndex;
   final Function(int) onTap;
 
-  const MenuItem(this.label, this.index, this.activeIndex, this.onTap);
+  const MenuItem(this.label, this.index, this.activeIndex, this.onTap,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +110,8 @@ class MenuItem extends StatelessWidget {
           onTap(index);
         },
         style: TextButton.styleFrom(
-          backgroundColor: activeIndex == index ? Colors.grey : Colors.transparent,
+          backgroundColor:
+              activeIndex == index ? Colors.grey : Colors.transparent,
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         ),
         child: Text(
@@ -115,7 +119,8 @@ class MenuItem extends StatelessWidget {
           style: TextStyle(
             fontSize: 18.0,
             color: activeIndex == index ? Colors.white : Colors.black,
-            fontWeight: activeIndex == index ? FontWeight.bold : FontWeight.normal,
+            fontWeight:
+                activeIndex == index ? FontWeight.bold : FontWeight.normal,
           ),
         ),
       ),

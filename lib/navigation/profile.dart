@@ -1,5 +1,4 @@
 import 'package:coffee_system/Authentication/auth_screen.dart';
-import 'package:coffee_system/dashboard/searchicon.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_system/Authentication/global.dart';
@@ -54,23 +53,18 @@ class _ProfileState extends State<Profile> {
               padding: const EdgeInsets.all(15.0),
               child: Column(
                 // Wrap the Text widgets inside a Column
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Email: $globalEmail',
                     style: const TextStyle(fontSize: 18),
                   ),
-                  const SizedBox(
-                      height: 8
-                      ),
+                  const SizedBox(height: 8),
                   Text(
                     'Username: $globalUsername',
                     style: const TextStyle(fontSize: 18),
                   ),
-                  const SizedBox(
-                      height: 8
-                      ),
+                  const SizedBox(height: 8),
                   Text(
                     'User ID: $globalUserId',
                     style: const TextStyle(fontSize: 18),

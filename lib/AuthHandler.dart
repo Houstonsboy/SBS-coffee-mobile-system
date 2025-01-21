@@ -1,10 +1,8 @@
 import 'package:coffee_system/main_screen.dart';
 import 'package:flutter/material.dart';
-import 'user/UserProvider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'Authentication/auth_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:provider/provider.dart';
 import 'Authentication/global.dart';
 
 class AuthHandler extends StatelessWidget {
@@ -13,10 +11,7 @@ class AuthHandler extends StatelessWidget {
   Future<void> _loadUserData(String uid) async {
     try {
       final userDoc =
-          await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .get();
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
 
       if (userDoc.exists) {
         final userData = userDoc.data();
@@ -38,20 +33,20 @@ class AuthHandler extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-              if (snapshot.data == null) {
-                clearGlobalVariables();
-                return const AuthScreen();
-              } else {
-                _loadUserData(snapshot.data!.uid);
-                return const MainScreen();
-              }
-            },
-          );
+        if (snapshot.data == null) {
+          clearGlobalVariables();
+          return const AuthScreen();
+        } else {
+          _loadUserData(snapshot.data!.uid);
+          return const MainScreen();
+        }
+      },
+    );
   }
 }

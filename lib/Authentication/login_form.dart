@@ -2,11 +2,12 @@ import 'package:coffee_system/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'global.dart';
+
 class LoginForm extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  LoginForm({Key? key}) : super(key: key);
+  LoginForm({super.key});
 
   Future<void> login(BuildContext context) async {
     final String email = emailController.text.trim();
@@ -14,7 +15,8 @@ class LoginForm extends StatelessWidget {
 
     try {
       // Firebase authentication logic
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );

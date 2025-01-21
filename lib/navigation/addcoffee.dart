@@ -6,7 +6,7 @@ class AddCoffeeItem extends StatelessWidget {
   final TextEditingController priceController = TextEditingController();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  AddCoffeeItem({Key? key}) : super(key: key);
+  AddCoffeeItem({super.key});
 
   Future<void> addCoffeeItem(BuildContext context) async {
     final String coffeeTitle = coffeeTitleController.text.trim();
@@ -83,7 +83,8 @@ class AddCoffeeItem extends StatelessWidget {
               onPressed: () => addCoffeeItem(context),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFA57C50),
-                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                 textStyle: const TextStyle(fontSize: 18),
               ),
               child: const Text("Send", style: TextStyle(color: Colors.black)),

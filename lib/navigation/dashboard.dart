@@ -4,6 +4,8 @@ import '../dashboard/menuitems.dart'; // Import MenuItems
 import '../dashboard/menuscrollable.dart'; // Import MenuScrollable
 
 class dashboard extends StatefulWidget {
+  const dashboard({super.key});
+
   @override
   _dashboardState createState() => _dashboardState();
 }
@@ -45,7 +47,9 @@ class _dashboardState extends State<dashboard> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(15.0),
-              child: MenuScrollable(selectedIndex: _activeIndex), // Pass the selectedIndex to MenuScrollable
+              child: MenuScrollable(
+                  selectedIndex:
+                      _activeIndex), // Pass the selectedIndex to MenuScrollable
             ),
           ),
         ],
