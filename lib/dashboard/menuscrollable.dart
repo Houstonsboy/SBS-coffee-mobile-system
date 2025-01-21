@@ -43,7 +43,21 @@ class MenuScrollable extends StatelessWidget {
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20.0),
           topRight: Radius.circular(20.0),
-        ),
+              ),
+             border: Border(
+                  top: BorderSide(
+                    color: Colors.black87, // Set the border color
+                    width: 1.0, // Set the border width
+                  ),
+                  left: BorderSide(
+                    color: Colors.black87, // Set the border color
+                    width: 1.0, // Set the border width
+                  ),
+                  right: BorderSide(
+                    color: Colors.black87, // Set the border color
+                    width: 1.0, // Set the border width
+                  ),
+                ),
       ),
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
