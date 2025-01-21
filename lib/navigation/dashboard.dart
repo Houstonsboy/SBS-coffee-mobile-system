@@ -38,13 +38,25 @@ class _dashboardState extends State<dashboard> {
               height: screenHeight * 0.3,
               width: screenWidth,
               decoration: BoxDecoration(
-                borderRadius:const BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(30),
                   bottomRight: Radius.circular(30),
                 ),
-                image: DecorationImage(
-                  image: AssetImage(currentBackgroundImage),
-                  fit: BoxFit.cover,
+              ),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20),
+                ),
+                child: ColorFiltered(
+                  colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.2),
+                    BlendMode.darken,
+                  ),
+                  child: Image.asset(
+                    currentBackgroundImage,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
