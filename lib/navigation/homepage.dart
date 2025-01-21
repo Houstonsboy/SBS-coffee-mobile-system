@@ -1,10 +1,24 @@
 import 'package:coffee_system/Authentication/global.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../dashboard/searchicon.dart';
-import '../homepage/ordertab.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+
+  Future<List<Map<String, dynamic>>> fetchOrders() async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('orders')
+          .where('userId', isEqualTo: globalUserId)
+          .get();
+
+      return querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+    } catch (e) {
+      print('Error fetching orders: $e');
+      return [];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,22 +28,20 @@ class HomePage extends StatelessWidget {
             CrossAxisAlignment.start, // Aligns children to the left
         children: [
           Padding(
-            padding: const EdgeInsets.only(
-                left: 16.0, top: 16.0), // Padding for the text
+            padding: const EdgeInsets.only(left: 16.0, top: 16.0),
             child: Text(
               'Welcome Back Chris',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 30.0, // Font size
                 color: Color(0xFF9C4400), // Color
               ),
             ),
           ),
-          // Add additional children here
           Padding(
             padding: const EdgeInsets.only(left: 16.0, top: 16.0),
             child: Text(
               'Whatsup dawg',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 24.0, // Smaller font size for demonstration
                 color: Colors.black,
               ),
@@ -42,11 +54,10 @@ class HomePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment
-                  .spaceBetween, // Space between text and image
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  'Your Basket', // Text on the left
+                  'Your Basket',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -59,58 +70,82 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Container(
-              padding: const EdgeInsets.all(15.0),
-              height: 80,
-              decoration: BoxDecoration(
-                // Linear gradient background
-                gradient: const LinearGradient(
-                  colors: [
-                    Color(0xFFFFCACA), // Light pink color
-                    Color(0xFFFFFFFF), // White color
-                  ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                ),
-                // Rounded corners
-                borderRadius: BorderRadius.circular(25.0),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Search',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      const Text(
-                        'Cappucino',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+          Expanded(
+            child: FutureBuilder<List<Map<String, dynamic>>>(
+              future: fetchOrders(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('No orders found.'));
+                } else {
+                  final orders = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: orders.length,
+                    itemBuilder: (context, index) {
+                      final order = orders[index];
+                      return Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Container(
+                          padding: const EdgeInsets.all(15.0),
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFFFFCACA),
+                                Color(0xFFFFFFFF),
+                              ],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    order['coffee_title'],
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Ksh ${order['price']}',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  if (order['ready'] == true)
+                                    Text(
+                                      'Ordered at: ${DateTime.parse(order['time']).toLocal()}',
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                              Icon(
+                                order['ready']
+                                    ? Icons.check_circle
+                                    : Icons.hourglass_empty,
+                                color: order['ready'] ? Colors.green : Colors.orange,
+                                size: 30,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      const Text(
-                        'Ksh 100',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Image.asset(
-                    'images/icons8-tick-48.png',
-                    height: 30, // Ensure the image fits within 30px height
-                  ),
-                ],
-              ),
+                      );
+                    },
+                  );
+                }
+              },
             ),
           ),
         ],

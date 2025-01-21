@@ -8,13 +8,12 @@ import 'package:provider/provider.dart';
 import 'navigation/dashboard.dart';
 import 'navigation/homepage.dart';
 import 'Authentication/auth_screen.dart';
-import  'Authentication/global.dart';
+import 'Authentication/global.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'navigation/addcoffee.dart';
 import 'navigation/profile.dart';
 
 import 'user/UserProvider.dart';
-
 
 // Initialize Firebase before running the app
 void main() async {
@@ -23,22 +22,24 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  Future.delayed(const Duration(seconds: 2), (){
+  Future.delayed(const Duration(seconds: 2), () {
     FlutterNativeSplash.remove();
   });
-    
-    
 
   runApp(ChangeNotifierProvider(
-      create: (_) => UserProvider(),
-      child: MyApp(),
-    ));
+    create: (_) => UserProvider(),
+    child: const MyApp(),
+  ));
 }
 
-
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -65,12 +66,14 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     initialization();
   }
-  void initialization() async{
+
+  void initialization() async {
     print('showing splash');
     await Future.delayed(const Duration(seconds: 2));
     print('removing splash');
     FlutterNativeSplash.remove();
   }
+
   // Index to keep track of the selected tab
   int _selectedIndex = 0;
 
