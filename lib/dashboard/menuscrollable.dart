@@ -87,42 +87,49 @@ class MenuScrollable extends StatelessWidget {
               duration: const Duration(milliseconds: 300),
               opacity: isAvailable ? 1.0 : 0.7,
               child: GestureDetector(
-                onTap: isAvailable ? () => navigateToOrder(context, {
-                  ...data,
-                  'category': categoryMap[selectedIndex],
-                }) : null,
+                onTap: isAvailable
+                    ? () => navigateToOrder(context, {
+                          ...data,
+                          'category': categoryMap[selectedIndex],
+                        })
+                    : null,
                 child: Container(
                   margin: const EdgeInsets.symmetric(
                     vertical: 8.0,
                     horizontal: 16.0,
                   ),
-                  height: 100.0,
+                  height: 130.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
                     border: Border.all(
-                      color: isAvailable 
-                          ? Colors.brown.shade200 
+                      color: isAvailable
+                          ? Colors.brown.shade200
                           : Colors.grey.shade300,
                       width: 1.5,
                     ),
                     color: isAvailable ? Colors.white : Colors.grey.shade50,
-                    boxShadow: isAvailable ? [
-                      BoxShadow(
-                        color: Colors.brown.withOpacity(0.1),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ] : null,
-                    gradient: isAvailable ? LinearGradient(
-                      colors: [
-                       Color.fromARGB(235, 35, 23, 9),
-                         Color(0xFF8B4513),  // Warm brown
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ) : null,
+                    boxShadow: isAvailable
+                        ? [
+                            BoxShadow(
+                              color: Colors.brown.withOpacity(0.1),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ]
+                        : null,
+                    gradient: isAvailable
+                        ? LinearGradient(
+                            colors: [
+                              Colors.pink[50]!, // Light pink
+                              Colors.pink[100]!, // Warm brown
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          )
+                        : null,
                   ),
                   child: Stack(
+                    clipBehavior: Clip.hardEdge,
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -132,16 +139,16 @@ class MenuScrollable extends StatelessWidget {
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
                                     data['coffee_title'] ?? 'Untitled',
                                     style: TextStyle(
-                                      fontSize: 18.0,
+                                      fontSize: 16.0,
                                       fontWeight: FontWeight.w600,
-                                      color: isAvailable 
-                                          ? Colors.black 
-                                          : Colors.white,
+                                      color: isAvailable
+                                          ? Colors.white
+                                          : Colors.grey.shade600,
                                       letterSpacing: 0.2,
                                     ),
                                     textAlign: TextAlign.left,
@@ -176,42 +183,59 @@ class MenuScrollable extends StatelessWidget {
                             Column(
                               mainAxisAlignment: MainAxisAlignment.end,
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: isClassicDrink ? [
-                                Text(
-                                  'Single: Ksh ${data['single']?.toString() ?? 'N/A'}',
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.w500,
-                                    color: isAvailable 
-                                        ? Colors.white 
-                                        : Colors.grey.shade600,
-                                  ),
-                                ),
-                                const SizedBox(height: 4.0),
-                                Text(
-                                  'Double: Ksh ${data['double']?.toString() ?? 'N/A'}',
-                                  style: TextStyle(
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.w500,
-                                    color: isAvailable 
-                                        ? Colors.white
-                                        : Colors.grey.shade600,
-                                  ),
-                                ),
-                              ] : [
-                                Text(
-                                  'Ksh ${data['price']?.toString() ?? 'N/A'}',
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.w600,
-                                    color: isAvailable 
-                                        ? Colors.brown.shade700 
-                                        : Colors.grey.shade600,
-                                  ),
-                                ),
-                              ],
+                              children: isClassicDrink
+                                  ? [
+                                      Text(
+                                        'Single: Ksh ${data['single']?.toString() ?? 'N/A'}',
+                                        style: TextStyle(
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.w500,
+                                          color: isAvailable
+                                              ? Colors.white
+                                              : Colors.grey.shade600,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4.0),
+                                      Text(
+                                        'Double: Ksh ${data['double']?.toString() ?? 'N/A'}',
+                                        style: TextStyle(
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.w500,
+                                          color: isAvailable
+                                              ? Colors.white
+                                              : Colors.grey.shade600,
+                                        ),
+                                      ),
+                                    ]
+                                  : [
+                                      Text(
+                                        'Ksh ${data['price']?.toString() ?? 'N/A'}',
+                                        style: TextStyle(
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.w600,
+                                          color: isAvailable
+                                              ? Colors.white
+                                              : Colors.grey.shade600,
+                                        ),
+                                      ),
+                                    ],
                             ),
                           ],
+                        ),
+                      ),
+                      Positioned(
+                        left: 8.0,
+                        bottom: 4.0,
+                        child: Container(
+                          width: 60.0,
+                          height: 60.0, // Changed from 500.0 to make it more reasonable
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            image: DecorationImage(
+                              image: AssetImage('images/school_logos/sample.jpg'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                       ),
                       if (!isAvailable)

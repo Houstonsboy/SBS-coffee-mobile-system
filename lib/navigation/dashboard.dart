@@ -35,9 +35,13 @@ class _dashboardState extends State<dashboard> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Container(
-              height: screenHeight / 5,
+              height: screenHeight * 0.3,
               width: screenWidth,
               decoration: BoxDecoration(
+                borderRadius:const BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
                 image: DecorationImage(
                   image: AssetImage(currentBackgroundImage),
                   fit: BoxFit.cover,
