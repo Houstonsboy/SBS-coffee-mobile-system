@@ -29,40 +29,50 @@ class _MainScreenState extends State<MainScreen> {
   ];
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Coffee Shop'),
-        centerTitle: true,
-      ),
-      body: _pages[_selectedIndex], // Dynamically change the body
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex, // Set the current active tab
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index; // Update the selected index
-          });
-        },
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'images/SU-Logo.png',
+            height: 60, // Adjust the height as needed
+            width: 60, // Adjust the width as needed
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: 'Menu',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.receipt),
-            label: 'Receipts',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
+          const SizedBox(width: 10), // Add some space between the image and the text
         ],
       ),
-    );
-  }
+      centerTitle: true,
+    ),
+    body: _pages[_selectedIndex], // Dynamically change the body
+    bottomNavigationBar: BottomNavigationBar(
+      currentIndex: _selectedIndex, // Set the current active tab
+      onTap: (index) {
+        setState(() {
+          _selectedIndex = index; // Update the selected index
+        });
+      },
+      type: BottomNavigationBarType.fixed,
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.menu),
+          label: 'Menu',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.receipt),
+          label: 'Receipts',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person),
+          label: 'Profile',
+        ),
+      ],
+    ),
+  );
+}
 }
