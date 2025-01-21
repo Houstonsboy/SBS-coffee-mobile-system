@@ -22,11 +22,12 @@ class LoginForm extends StatelessWidget {
       // Retrieve user details
       final User? user = userCredential.user;
       final String userId = user?.uid ?? '';
-      final String username = user?.email ?? '';
+      final String useremail = user?.email ?? '';
+
 
       // Save userId and username globally
       globalUserId = userId;
-      globalUsername = username;
+      globalEmail = useremail;
 
       // Redirect to Dashboard on successful login
       Navigator.pushReplacement(

@@ -13,9 +13,9 @@ class _SignUpFormState extends State<SignUpForm> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-  final TextEditingController schoolIdController = TextEditingController();
+  //final TextEditingController schoolIdController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  String? selectedGender;
+  //String? selectedGender;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -24,15 +24,16 @@ class _SignUpFormState extends State<SignUpForm> {
     final String username = usernameController.text.trim();
     final String email = emailController.text.trim();
     final String phone = phoneController.text.trim();
-    final String schoolId = schoolIdController.text.trim();
+    //final String schoolId = schoolIdController.text.trim();
     final String password = passwordController.text;
 
     if (username.isEmpty ||
         email.isEmpty ||
         phone.isEmpty ||
-        schoolId.isEmpty ||
-        password.isEmpty ||
-        selectedGender == null) {
+        //schoolId.isEmpty ||
+        password.isEmpty
+        //|| selectedGender == null
+        ) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('All fields are required')),
       );
@@ -53,18 +54,20 @@ class _SignUpFormState extends State<SignUpForm> {
         'username': username,
         'email': email,
         'phone': phone,
-        'schoolId': schoolId,
-        'gender': selectedGender,
+        //'schoolId': schoolId,
+        //'gender': selectedGender,
         'createdAt': FieldValue.serverTimestamp(),
       });
 
       // Set global variables
-      setState(() {
+      
         globalUserId = userId;
         globalUsername = username;
         globalEmail = email;
+        globalPhone = phone;
         isUserLoggedIn = true;
-      });
+        await saveGlobalVariables();
+
 
       // Navigate to MainScreen
       Navigator.pushReplacement(
@@ -91,11 +94,11 @@ class _SignUpFormState extends State<SignUpForm> {
     usernameController.clear();
     emailController.clear();
     phoneController.clear();
-    schoolIdController.clear();
+    //schoolIdController.clear();
     passwordController.clear();
-    setState(() {
-      selectedGender = null;
-    });
+    // setState(() {
+    //   selectedGender = null;
+    // });
   }
 
   @override
@@ -125,32 +128,32 @@ class _SignUpFormState extends State<SignUpForm> {
             prefixIcon: Icon(Icons.phone),
           ),
         ),
-        const SizedBox(height: 10),
-        TextField(
-          controller: schoolIdController,
-          decoration: const InputDecoration(
-            labelText: "Enter School ID",
-            prefixIcon: Icon(Icons.school),
-          ),
-        ),
-        const SizedBox(height: 10),
-        DropdownButtonFormField<String>(
-          value: selectedGender,
-          decoration: const InputDecoration(
-            labelText: "Select Gender",
-            prefixIcon: Icon(Icons.person_outline),
-          ),
-          items: const [
-            DropdownMenuItem(value: "Male", child: Text("Male")),
-            DropdownMenuItem(value: "Female", child: Text("Female")),
-            DropdownMenuItem(value: "Prefer not to say", child: Text("Prefer not to say")),
-          ],
-          onChanged: (value) {
-            setState(() {
-              selectedGender = value;
-            });
-          },
-        ),
+        // const SizedBox(height: 10),
+        // TextField(
+        //   controller: schoolIdController,
+        //   decoration: const InputDecoration(
+        //     labelText: "Enter School ID",
+        //     prefixIcon: Icon(Icons.school),
+        //   ),
+        // ),
+        // const SizedBox(height: 10),
+        // DropdownButtonFormField<String>(
+        //   value: selectedGender,
+        //   decoration: const InputDecoration(
+        //     labelText: "Select Gender",
+        //     prefixIcon: Icon(Icons.person_outline),
+        //   ),
+        //   items: const [
+        //     DropdownMenuItem(value: "Male", child: Text("Male")),
+        //     DropdownMenuItem(value: "Female", child: Text("Female")),
+        //     DropdownMenuItem(value: "Prefer not to say", child: Text("Prefer not to say")),
+        //   ],
+        //   onChanged: (value) {
+        //     setState(() {
+        //       selectedGender = value;
+        //     });
+        //   },
+        // ),
         const SizedBox(height: 10),
         TextField(
           controller: passwordController,

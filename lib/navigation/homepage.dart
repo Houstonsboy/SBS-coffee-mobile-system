@@ -49,10 +49,6 @@ class HomePage extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(15.0),
-            child: SearchIcon(),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
