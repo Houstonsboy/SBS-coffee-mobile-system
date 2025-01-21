@@ -232,8 +232,8 @@ class MenuScrollable extends StatelessWidget {
                         left: 8.0,
                         bottom: 4.0,
                         child: Container(
-                          width: 60.0,
-                          height: 60.0, // Changed from 500.0 to make it more reasonable
+                          width: 100.0,
+                          height: 100.0, // Changed from 500.0 to make it more reasonable
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
                             image: DecorationImage(
