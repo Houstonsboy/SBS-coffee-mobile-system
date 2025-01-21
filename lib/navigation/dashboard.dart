@@ -20,14 +20,20 @@ class _dashboardState extends State<dashboard> {
     return Scaffold(
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Container(
-              height: screenHeight / 5,
-              width: screenWidth,
-              color: Colors.brown,
-            ),
-          ),
+         Padding(
+  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+  child: Container(
+    height: screenHeight / 5,
+    width: screenWidth,
+    decoration: BoxDecoration(
+      image: DecorationImage(
+        image: AssetImage('images/coffee2.jpg'), // Path to your image
+        fit: BoxFit.cover, // Ensures the image covers the entire container
+      ),
+    ),
+  ),
+),
+
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: SearchIcon(),
