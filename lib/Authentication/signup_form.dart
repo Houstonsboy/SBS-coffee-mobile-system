@@ -17,6 +17,8 @@ class _SignUpFormState extends State<SignUpForm> {
   final TextEditingController passwordController = TextEditingController();
   //String? selectedGender;
 
+  bool _obscurePassword=true;
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -157,10 +159,21 @@ class _SignUpFormState extends State<SignUpForm> {
         const SizedBox(height: 10),
         TextField(
           controller: passwordController,
-          obscureText: true,
-          decoration: const InputDecoration(
+          obscureText: _obscurePassword,
+          decoration: InputDecoration(
             labelText: "Enter Password",
             prefixIcon: Icon(Icons.lock),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                setState(() {
+                  _obscurePassword = !_obscurePassword;
+                });
+              },
+              )
           ),
         ),
         const SizedBox(height: 20),

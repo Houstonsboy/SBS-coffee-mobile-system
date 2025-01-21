@@ -69,7 +69,7 @@ class _LoginFormState extends State<LoginForm> {
         TextField(
           controller: passwordController,
           obscureText: _obscurePassword,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             labelText: "Enter Password",
             prefixIcon: Icon(Icons.lock),
             suffixIcon: IconButton(
