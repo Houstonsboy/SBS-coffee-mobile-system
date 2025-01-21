@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../dashboard/searchicon.dart';
-import '../dashboard/menuitems.dart'; // Import MenuItems
-import '../dashboard/menuscrollable.dart'; // Import MenuScrollable
+import '../dashboard/menuitems.dart';
+import '../dashboard/menuscrollable.dart';
 
 class dashboard extends StatefulWidget {
   @override
@@ -9,8 +9,20 @@ class dashboard extends StatefulWidget {
 }
 
 class _dashboardState extends State<dashboard> {
-  // Variable to store the active index
   int _activeIndex = 0;
+  
+  // Map to store category images
+  final Map<int, String> categoryImages = {
+    0: 'images/ClassicsPage.jpg',     // Classic
+    1: 'images/SmoothiesPage.jpg',         // Smoothies
+    2: 'images/WinterWarmersPage.jpg',     // Winter Warmers
+    3: 'images/SummerCoolersPage.jpg',     // Summer Coolers
+    4: 'images/SignaturePage.jpg',     // Signatures
+  };
+
+  // Get current background image based on active index
+  String get currentBackgroundImage => 
+    categoryImages[_activeIndex] ?? 'images/SignaturePage.jpg';
 
   @override
   Widget build(BuildContext context) {
@@ -20,20 +32,19 @@ class _dashboardState extends State<dashboard> {
     return Scaffold(
       body: Column(
         children: [
-         Padding(
-  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-  child: Container(
-    height: screenHeight / 5,
-    width: screenWidth,
-    decoration: BoxDecoration(
-      image: DecorationImage(
-        image: AssetImage('images/FigmaPrototypeImages/SignaturePage.jpg'), // Path to your image
-        fit: BoxFit.cover, // Ensures the image covers the entire container
-      ),
-    ),
-  ),
-),
-
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: Container(
+              height: screenHeight / 5,
+              width: screenWidth,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(currentBackgroundImage),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: SearchIcon(),
@@ -51,7 +62,7 @@ class _dashboardState extends State<dashboard> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(15.0),
-              child: MenuScrollable(selectedIndex: _activeIndex), // Pass the selectedIndex to MenuScrollable
+              child: MenuScrollable(selectedIndex: _activeIndex),
             ),
           ),
         ],
