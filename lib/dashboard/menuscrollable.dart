@@ -37,7 +37,14 @@ class MenuScrollable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xffE6D3C7), // background color scrollable menu
+      padding: const EdgeInsets.only(top: 25.0), // Set padding top
+      decoration: BoxDecoration(
+        color: Color(0xffE6D3C7), // background color
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.0), // Set top left border radius
+          topRight: Radius.circular(20.0), // Set top right border radius
+        ),
+      ),
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('coffee')
