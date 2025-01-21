@@ -53,21 +53,24 @@ class _dashboardState extends State<dashboard> {
                     Colors.black.withOpacity(0.2),
                     BlendMode.darken,
                   ),
+                  child:Transform.scale(
+                  scale: 1,
                   child: Image.asset(
                     currentBackgroundImage,
                     fit: BoxFit.cover,
+                  ),
                   ),
                 ),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: SearchIcon(),
+            padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+             child: SearchIcon(),
           ),
           Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: MenuItems(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 15.0),
+             child: MenuItems(
               onItemTapped: (index) {
                 setState(() {
                   _activeIndex = index;
