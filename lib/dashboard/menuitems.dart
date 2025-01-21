@@ -71,9 +71,10 @@ class MenuItem extends StatelessWidget {
           label,
           style: TextStyle(
             fontSize: 16.0,
-            color: isSelected ? Colors.brown : Colors.brown.shade700,
+            color: isSelected ? Colors.black : Colors.brown.shade700,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
           ),
+          textAlign: TextAlign.right,
         ),
       ),
     );
