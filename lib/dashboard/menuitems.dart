@@ -56,7 +56,7 @@ class MenuItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: TextButton(
         style: TextButton.styleFrom(
-          backgroundColor: isSelected ? Colors.brown.shade50 : Colors.transparent,
+          backgroundColor: isSelected ? Colors.brown.shade200 : Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
             side: BorderSide(

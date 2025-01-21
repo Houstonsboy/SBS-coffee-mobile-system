@@ -120,8 +120,8 @@ class MenuScrollable extends StatelessWidget {
                     gradient: isAvailable
                         ? LinearGradient(
                             colors: [
-                              Colors.pink[50]!, // Light pink
-                              Colors.pink[100]!, // Warm brown
+                              Color(0xFFFFCACA), // Starting color
+                             Color(0xFFFFFFFF), // Ending color
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -141,17 +141,22 @@ class MenuScrollable extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child:
                                   Text(
                                     data['coffee_title'] ?? 'Untitled',
                                     style: TextStyle(
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.w600,
                                       color: isAvailable
-                                          ? Colors.white
+                                          ? Color(0xFF3A322C)
                                           : Colors.grey.shade600,
                                       letterSpacing: 0.2,
                                     ),
-                                    textAlign: TextAlign.left,
+                                  
+                                    textAlign: TextAlign.right,
+                                  ),
                                   ),
                                   if (!isAvailable) ...[
                                     const SizedBox(height: 6),
@@ -188,10 +193,10 @@ class MenuScrollable extends StatelessWidget {
                                       Text(
                                         'Single: Ksh ${data['single']?.toString() ?? 'N/A'}',
                                         style: TextStyle(
-                                          fontSize: 12.0,
+                                          fontSize: 14.0,
                                           fontWeight: FontWeight.w500,
                                           color: isAvailable
-                                              ? Colors.white
+                                              ? Colors.green.shade700
                                               : Colors.grey.shade600,
                                         ),
                                       ),
@@ -199,10 +204,10 @@ class MenuScrollable extends StatelessWidget {
                                       Text(
                                         'Double: Ksh ${data['double']?.toString() ?? 'N/A'}',
                                         style: TextStyle(
-                                          fontSize: 12.0,
+                                          fontSize: 14.0,
                                           fontWeight: FontWeight.w500,
                                           color: isAvailable
-                                              ? Colors.white
+                                              ? Colors.green.shade700
                                               : Colors.grey.shade600,
                                         ),
                                       ),
@@ -211,10 +216,10 @@ class MenuScrollable extends StatelessWidget {
                                       Text(
                                         'Ksh ${data['price']?.toString() ?? 'N/A'}',
                                         style: TextStyle(
-                                          fontSize: 12.0,
+                                          fontSize: 14.0,
                                           fontWeight: FontWeight.w600,
                                           color: isAvailable
-                                              ? Colors.white
+                                              ? Colors.green.shade700
                                               : Colors.grey.shade600,
                                         ),
                                       ),
