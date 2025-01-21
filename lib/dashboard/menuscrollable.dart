@@ -115,7 +115,7 @@ class MenuScrollable extends StatelessWidget {
                     ] : null,
                     gradient: isAvailable ? LinearGradient(
                       colors: [
-                       Color(0xFF231709),
+                       Color.fromARGB(235, 35, 23, 9),
                          Color(0xFF8B4513),  // Warm brown
                       ],
                       begin: Alignment.topLeft,
@@ -140,10 +140,11 @@ class MenuScrollable extends StatelessWidget {
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.w600,
                                       color: isAvailable 
-                                          ? Colors.brown.shade800 
-                                          : Colors.grey.shade600,
+                                          ? Colors.black 
+                                          : Colors.white,
                                       letterSpacing: 0.2,
                                     ),
+                                    textAlign: TextAlign.left,
                                   ),
                                   if (!isAvailable) ...[
                                     const SizedBox(height: 6),
@@ -173,16 +174,16 @@ class MenuScrollable extends StatelessWidget {
                               ),
                             ),
                             Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: isClassicDrink ? [
                                 Text(
                                   'Single: Ksh ${data['single']?.toString() ?? 'N/A'}',
                                   style: TextStyle(
-                                    fontSize: 16.0,
+                                    fontSize: 12.0,
                                     fontWeight: FontWeight.w500,
                                     color: isAvailable 
-                                        ? Colors.brown.shade700 
+                                        ? Colors.white 
                                         : Colors.grey.shade600,
                                   ),
                                 ),
@@ -190,10 +191,10 @@ class MenuScrollable extends StatelessWidget {
                                 Text(
                                   'Double: Ksh ${data['double']?.toString() ?? 'N/A'}',
                                   style: TextStyle(
-                                    fontSize: 16.0,
+                                    fontSize: 12.0,
                                     fontWeight: FontWeight.w500,
                                     color: isAvailable 
-                                        ? Colors.brown.shade700 
+                                        ? Colors.white
                                         : Colors.grey.shade600,
                                   ),
                                 ),
