@@ -27,7 +27,7 @@ class _dashboardState extends State<dashboard> {
     width: screenWidth,
     decoration: BoxDecoration(
       image: DecorationImage(
-        image: AssetImage('images/coffee2.jpg'), // Path to your image
+        image: AssetImage('images/FigmaPrototypeImages/SignaturePage.jpg'), // Path to your image
         fit: BoxFit.cover, // Ensures the image covers the entire container
       ),
     ),
