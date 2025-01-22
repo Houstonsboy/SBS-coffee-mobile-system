@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:developer';
 
 class OrdersScreen extends StatefulWidget {
   const OrdersScreen({Key? key}) : super(key: key);
@@ -39,9 +40,10 @@ class _OrdersScreenState extends State<OrdersScreen>
 
       setState(() {
         orders = fetchedOrders;
-        _updateCategoryCounts();
+        _updateCategoryCounts(); // Call after orders are updated
 
         if (categoryCounts.isNotEmpty) {
+          // Check if categories are available
           _tabController =
               TabController(length: categoryCounts.keys.length, vsync: this);
         }
@@ -70,7 +72,7 @@ class _OrdersScreenState extends State<OrdersScreen>
 
       setState(() {
         coffees = fetchedCoffees;
-        _updateCategoryCounts();
+        _updateCategoryCounts(); // Call after coffees are updated
       });
     } catch (e) {
       print('Error fetching coffees: $e');
@@ -78,6 +80,7 @@ class _OrdersScreenState extends State<OrdersScreen>
   }
 
   void _updateCategoryCounts() {
+    // This function now depends on both orders and coffees being loaded
     if (orders.isEmpty || coffees.isEmpty) return;
 
     Map<String, int> newCategoryCounts = {};
@@ -89,7 +92,9 @@ class _OrdersScreenState extends State<OrdersScreen>
       categoryCounts = newCategoryCounts;
       if (categoryCounts.isNotEmpty) {
         _tabController = TabController(
-            length: categoryCounts.keys.length, vsync: this, initialIndex: 0);
+            length: categoryCounts.keys.length,
+            vsync: this,
+            initialIndex: 0); // Set initial index to 0
       }
     });
   }
@@ -101,6 +106,42 @@ class _OrdersScreenState extends State<OrdersScreen>
       }
     }
     return 'Unknown';
+  }
+
+  Future<String> _getUserName(String userId) async {
+    if (userId.isEmpty) {
+      log('User ID is empty. Returning "Unknown User".');
+      return 'Unknown User';
+    }
+
+    try {
+      // Log the userId being fetched
+      log('Fetching user name for User ID: $userId');
+
+      // Fetch user document directly using its ID
+      final DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
+
+      // Check if the document exists
+      if (userDoc.exists) {
+        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+        String firstName = userData['firstName'] ?? '';
+        String lastName = userData['lastName'] ?? '';
+        String fullName = '$firstName $lastName';
+
+        // Log the fetched user name
+        log('Fetched user name: $fullName for User ID: $userId');
+        return fullName;
+      } else {
+        log('No user found for User ID: $userId. Returning "Unknown User".');
+        return 'Unknown User';
+      }
+    } catch (e) {
+      log('Error fetching user name for User ID $userId: $e');
+      return 'Unknown User';
+    }
   }
 
   @override
@@ -124,56 +165,78 @@ class _OrdersScreenState extends State<OrdersScreen>
       );
     }
 
+    // Ensure _tabController is initialized if categoryCounts is not empty
     if (_tabController == null && categoryCounts.isNotEmpty) {
       _tabController =
           TabController(length: categoryCounts.keys.length, vsync: this);
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        toolbarHeight: 10, // Adjust this value to make the AppBar more compact
+      ),
       body: Column(
         children: [
-          // "Total Orders" text at the top
-          Padding(
-            padding: const EdgeInsets.only(top: 24.0, bottom: 16.0),
-            child: Text(
-              'Total Orders: ${orders.length}',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.brown,
-              ),
-            ),
-          ),
-          // Top section with categories
+          // Top section with total orders and categories
           Container(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              height: 35, // Compact category nav bar
-              child: TabBar(
-                controller: _tabController,
-                isScrollable: true,
-                labelColor: Colors.brown.shade900,
-                unselectedLabelColor: Colors.grey,
-                indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.brown.shade100,
-                ),
-                tabs: categoryCounts.keys.map((category) {
-                  return Tab(text: '$category (${categoryCounts[category]})');
-                }).toList(),
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                Text(
+                  'Total Orders: ${orders.length}',
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // Category tabs
+                SizedBox(
+                  height: 40,
+                  child: TabBar(
+                    controller: _tabController,
+                    isScrollable: true,
+                    labelColor: Colors.black,
+                    unselectedLabelColor: Colors.black54,
+                    indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.grey.shade200,
+                    ),
+                    tabs: categoryCounts.keys.map((category) {
+                      return Tab(
+                          text: '$category (${categoryCounts[category]})');
+                    }).toList(),
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 16),
-          // Order list (Horizontal scrolling)
+          // Order list
           Expanded(
-            child: _tabController != null
+            child: _tabController !=
+                    null // Only render TabBarView if _tabController is initialized
                 ? TabBarView(
                     controller: _tabController,
                     children: categoryCounts.keys.map((category) {
                       return ListView.builder(
-                        scrollDirection: Axis.horizontal,
                         itemCount: orders
                             .where((order) =>
                                 _getCategoryForCoffee(
@@ -187,9 +250,22 @@ class _OrdersScreenState extends State<OrdersScreen>
                                       order['coffee_title'] ?? '') ==
                                   category)
                               .toList()[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 16.0),
-                            child: OrderCard(order: order),
+                          return FutureBuilder<String>(
+                            future: _getUserName(order['userId'] ?? ''),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              } else if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              } else {
+                                String userName =
+                                    snapshot.data ?? 'Unknown User';
+                                return OrderCard(
+                                    order: order, userName: userName);
+                              }
+                            },
                           );
                         },
                       );
@@ -205,46 +281,95 @@ class _OrdersScreenState extends State<OrdersScreen>
 
 class OrderCard extends StatelessWidget {
   final Map<String, dynamic> order;
+  final String userName;
 
-  const OrderCard({Key? key, required this.order}) : super(key: key);
+  const OrderCard({Key? key, required this.order, required this.userName})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.all(8.0),
-      elevation: 4,
+      margin: const EdgeInsets.all(6.0), // Reduced margin for compactness
+      elevation: 3, // Slightly lower elevation for a sleeker look
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(10.0), // Adjusted for compactness
       ),
-      child: Container(
-        width: 300, // Set width directly
-        height: 150,
-        padding: const EdgeInsets.all(8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0), // Reduced padding for compactness
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               order['coffee_title'] ?? 'Unknown Coffee',
               style: const TextStyle(
-                fontSize: 14,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 4), // Reduced space
+            Text(
+              'Ordered by: $userName',
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black54,
               ),
             ),
             const SizedBox(height: 4),
             Text(
               'Location: ${order['location'] ?? 'Not specified'}',
               style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey[600],
+                fontSize: 14,
+                color: Colors.brown.shade300,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Cup Size: ${order['cup_size'] ?? 'Not specified'}',
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black54,
               ),
             ),
             const SizedBox(height: 4),
             Text(
               'Price: Ksh ${order['price'] ?? '0.0'}',
               style: const TextStyle(
-                fontSize: 14,
+                fontSize: 16,
                 color: Colors.brown,
               ),
+            ),
+            const SizedBox(height: 10), // Reduced space
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    // TODO: Implement mark as ready functionality
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.brown.shade600,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 8), // Compact button
+                    textStyle:
+                        const TextStyle(fontSize: 14, color: Colors.white),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                  child: const Text(
+                    'Mark as Ready',
+                    style: TextStyle(color: Colors.white), // Ensures white text
+                  ),
+                ),
+                Text(
+                  '${order['time'] ?? 'Time not available'}',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black54,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
