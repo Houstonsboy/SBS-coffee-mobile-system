@@ -190,27 +190,27 @@ class MenuScrollable extends StatelessWidget {
                                     ),
                                     if (!isAvailable) ...[
                                       const SizedBox(height: 6),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 10,
-                                          vertical: 3,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: Colors.grey.shade100,
-                                          borderRadius: BorderRadius.circular(6),
-                                          border: Border.all(
-                                            color: Colors.grey.shade300,
-                                          ),
-                                        ),
-                                        child: Text(
-                                          'Unavailable',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.grey.shade700,
-                                          ),
-                                        ),
-                                      ),
+                                      // Container(
+                                      //   padding: const EdgeInsets.symmetric(
+                                      //     horizontal: 10,
+                                      //     vertical: 3,
+                                      //   ),
+                                      //   decoration: BoxDecoration(
+                                      //     color: Colors.grey.shade100,
+                                      //     borderRadius: BorderRadius.circular(6),
+                                      //     border: Border.all(
+                                      //       color: Colors.grey.shade300,
+                                      //     ),
+                                      //   ),
+                                      //   // child: Text(
+                                      //   //   'Unavailable',
+                                      //   //   style: TextStyle(
+                                      //   //     fontSize: 12,
+                                      //   //     fontWeight: FontWeight.w500,
+                                      //   //     color: Colors.grey.shade700,
+                                      //   //   ),
+                                      //   // ),
+                                      // ),
                                     ],
                                     Spacer(),
                                     // Price information at the bottom
