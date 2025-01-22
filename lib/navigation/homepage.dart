@@ -1,9 +1,33 @@
+import 'dart:math';
+
 import 'package:coffee_system/Authentication/global.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+
+  String getGreeting(){
+    final hour=DateTime.now().hour;
+    if(hour < 12){
+      return 'Good Morning!';
+    } else if(hour < 18){
+      return 'Good Afternoon!';
+    } else {
+      return 'Good Evening!';
+    }
+  }
+
+  String getEmoji(){
+    final hour=DateTime.now().hour;
+    if(hour < 12){
+      return '🌞';
+    } else if(hour < 18){
+      return '🪭';
+    } else {
+      return '🌚';
+    }
+  }
 
   Future<List<Map<String, dynamic>>> fetchOrders() async {
     try {
@@ -27,25 +51,27 @@ class HomePage extends StatelessWidget {
             CrossAxisAlignment.start, // Aligns children to the left
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 16.0),
+            padding: const EdgeInsets.only(left: 16.0),
             child: Text(
-              'Welcome Back Chris',
-              style: const TextStyle(
-                fontSize: 30.0, // Font size
-                color: Color(0xFF9C4400), // Color
+              'Hi, ${globalUsername ?? ''} ${getEmoji()}',
+              style: TextStyle(
+                fontSize: 24.0, // Font size
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16.0, top: 16.0),
+            padding: EdgeInsets.only(left: 16),
             child: Text(
-              'Whatsup dawg',
-              style: const TextStyle(
-                fontSize: 24.0, // Smaller font size for demonstration
-                color: Colors.black,
+              getGreeting(),
+              style: TextStyle(
+                fontSize: 24.0, // Font size
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
-          ),
+            ),
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: Row(

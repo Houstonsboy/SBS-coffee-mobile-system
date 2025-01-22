@@ -133,7 +133,8 @@ class _AuthScreenState extends State<AuthScreen> {
                           _isLogin
                               ? "If you don't already have an account\nSign-up"
                               : "If you already have an account\nSign-in",
-                          style: const TextStyle(color: Colors.grey),
+                              textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.grey.shade600),
                         ),
                       ),
                       const SizedBox(height: 10),

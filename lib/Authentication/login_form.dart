@@ -21,6 +21,12 @@ class _LoginFormState extends State<LoginForm> {
     final String email = emailController.text.trim();
     final String password = passwordController.text;
 
+    if(email.isEmpty || password.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('All fields are required')),
+      );
+      return;
+    }
     try {
       // Firebase authentication logic
       UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -53,9 +59,14 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
+    return Padding(
+  padding: const EdgeInsets.only(left: 20.0, right: 20.0), // Add padding around the form
+      child: Column(
+        mainAxisSize: MainAxisSize.min, // Make the column take minimum space
+        children: [
+          const SizedBox(height: 10),
+          // Email TextField
+           TextField(
           controller: emailController,
           decoration: const InputDecoration(
             labelText: "Enter Email Address",
@@ -65,7 +76,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           style: const TextStyle(color: Colors.black),
         ),
-        const SizedBox(height: 10),
+          const SizedBox(height: 10),
         TextField(
           controller: passwordController,
           obscureText: _obscurePassword,
@@ -88,17 +99,26 @@ class _LoginFormState extends State<LoginForm> {
           ),
           style: const TextStyle(color: Colors.black),
         ),
-        const SizedBox(height: 20),
-        ElevatedButton(
-          onPressed: () => login(context), // Call login function
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFA57C50),
-            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-            textStyle: const TextStyle(fontSize: 18),
+          const SizedBox(height: 30),
+          // Sign In Button
+          ElevatedButton(
+            onPressed: () => login(context), // Call login function
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFA57C50), // Button color
+              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+              textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0), // Rounded corners
+              ),
+            ),
+            child: const Text(
+              "Sign in",
+              style: TextStyle(color: Colors.white), // White text for contrast
+            ),
           ),
-          child: const Text("Sign in", style: TextStyle(color: Colors.black)),
-        ),
-      ],
-    );
+          const SizedBox(height: 10),
+        ],
+      ),
+);
   }
 }

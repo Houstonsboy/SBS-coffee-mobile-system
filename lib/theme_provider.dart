@@ -61,32 +61,39 @@ class ThemeProvider with ChangeNotifier {
 
   final lightTheme = ThemeData(
     brightness: Brightness.light,
-    primarySwatch: Colors.brown,
-    scaffoldBackgroundColor: Colors.white,
+    colorScheme: ColorScheme.light(
+      surface: Colors.grey.shade100,
+      primary: Colors.deepPurple,
+      secondary: Colors.brown.shade100,
+
+    ),
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.brown,
-      foregroundColor: Colors.white,
+      foregroundColor: Colors.black87,
       elevation: 0,
     ),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      selectedItemColor: Colors.brown,
-      unselectedItemColor: Colors.grey,
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      selectedItemColor: Color(0xff7C00FE),
+      unselectedItemColor: Colors.grey.shade700,
     ),
 
   );
 
   final darkTheme = ThemeData(
     brightness: Brightness.dark,
-    primarySwatch: Colors.brown,
-    scaffoldBackgroundColor: Colors.black,
+    colorScheme: ColorScheme.dark(
+      surface: const Color.fromARGB(255, 35, 35, 35),
+      primary: Colors.deepPurple.shade100,
+      secondary: Colors.brown.shade100,
+    ),
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.black,
       foregroundColor: Colors.white,
       elevation: 0,
     ),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      selectedItemColor: Colors.brown,
-      unselectedItemColor: Colors.grey,
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      selectedItemColor: Color(0xff7C00FE),
+      unselectedItemColor: Colors.white,
     ),
 
   );

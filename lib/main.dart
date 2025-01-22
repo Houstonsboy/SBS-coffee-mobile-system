@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'theme_provider.dart';
 import 'user/UserProvider.dart';
 
-// Initialize Firebase before running the app
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
@@ -44,8 +43,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
-    WidgetsBinding.instance.addObserver(this);
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -67,9 +66,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         return MaterialApp(
           title: 'Strathmore Coffee Shop',
           theme: themeProvider.themeData,
-          themeMode: themeProvider.isSystemTheme
-              ? ThemeMode.system
-              : (themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light),
           debugShowCheckedModeBanner: false,
           home: AuthHandler(),
         );

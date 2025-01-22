@@ -22,7 +22,7 @@ class AuthHandler extends StatelessWidget {
         final userData = userDoc.data();
         if (userData != null) {
           globalUserId = uid;
-          globalUsername = userData['username'];
+          globalUsername = userData['firstName'];
           globalEmail = userData['email'];
           globalPhone = userData['phone'];
           isUserLoggedIn = true;

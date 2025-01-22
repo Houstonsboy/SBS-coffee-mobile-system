@@ -105,8 +105,11 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
+    return Padding(
+      padding: const EdgeInsets.only(left: 20.0,right: 20.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+  	    children: [
         TextField(
           controller: usernameController,
           decoration: const InputDecoration(
@@ -179,9 +182,21 @@ class _SignUpFormState extends State<SignUpForm> {
         const SizedBox(height: 20),
         ElevatedButton(
           onPressed: () => signUp(context),
-          child: const Text("Sign up"),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFFA57C50), // Button color
+              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+              textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0), // Rounded corners
+              ),
+          ),
+          child: const Text(
+            "Sign up",
+            style: TextStyle(color: Colors.white),
+            ),
         ),
       ],
+      ),
     );
   }
 }

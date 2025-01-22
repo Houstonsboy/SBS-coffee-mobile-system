@@ -18,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
   }
-  
+
   // Index to keep track of the selected tab
   int _selectedIndex = 0;
 
@@ -35,28 +35,29 @@ class _MainScreenState extends State<MainScreen> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding:const EdgeInsets.only(left:60.0),
-            child:Image.asset(
-              'images/SU-Logo.png',
-              height: 60, // Adjust the height as needed
-              width: 60, // Adjust the width as needed
+              padding: const EdgeInsets.only(left: 60.0),
+              child: Image.asset(
+                'images/school_logos/emblem.png',
+                height: 40, // Adjust the height as needed
+                width: 40, // Adjust the width as needed
+              ),
             ),
-            ),
-            const SizedBox(width: 10), // Add some space between the image and the text
           ],
         ),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-            icon: Icon(
-              themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
-            ),
-            onPressed: () => themeProvider.toggleTheme(),
-            ),
+              icon: Icon(
+                themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
+              ),
+              onPressed: () {
+                themeProvider.toggleTheme();
+              }),
         ],
       ),
       body: _pages[_selectedIndex], // Dynamically change the body
@@ -68,7 +69,6 @@ class _MainScreenState extends State<MainScreen> {
           });
         },
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.brown, // Set the selected icon color to brown
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
