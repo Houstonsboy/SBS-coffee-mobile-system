@@ -67,8 +67,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       builder: (context, themeProvider, child) {
         return MaterialApp(
           title: 'Strathmore Coffee Shop',
-          theme: themeProvider.themeData,
+          theme: themeProvider.lightTheme,
           darkTheme: themeProvider.darkTheme,
+          themeMode: themeProvider.themeMode,
           debugShowCheckedModeBanner: false,
           home: AuthHandler(),
         );

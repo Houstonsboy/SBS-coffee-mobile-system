@@ -4,12 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ThemeProvider with ChangeNotifier {
   bool _isDarkMode = false;
   bool _isSystemTheme = true;
+  ThemeMode _themeMode = ThemeMode.system;
 
   final String _themePreferenceKey = 'theme_preference';
   final String _systemThemeKey = 'system_theme';
 
   bool get isDarkMode => _isDarkMode;
   bool get isSystemTheme => _isSystemTheme;
+  ThemeMode get themeMode => _themeMode;
 
   ThemeProvider(){
     _loadThemePreference();
@@ -21,10 +23,12 @@ class ThemeProvider with ChangeNotifier {
 
     if(_isSystemTheme){
       //get system theme
+      _themeMode = ThemeMode.system;
       var brightness = WidgetsBinding.instance.platformDispatcher.platformBrightness;
       _isDarkMode = brightness == Brightness.dark;
     } else{
       _isDarkMode = prefs.getBool(_themePreferenceKey) ?? false;
+      _themeMode = _isDarkMode ? ThemeMode.dark : ThemeMode.light;
     }
     notifyListeners();
   }
@@ -32,6 +36,7 @@ class ThemeProvider with ChangeNotifier {
   Future<void> toggleTheme() async{
     _isDarkMode = !_isDarkMode;
     _isSystemTheme = false;
+    _themeMode = _isDarkMode ? ThemeMode.dark : ThemeMode.light;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_themePreferenceKey, _isDarkMode);
     await prefs.setBool(_systemThemeKey, false);
@@ -40,6 +45,7 @@ class ThemeProvider with ChangeNotifier {
 
   Future<void> setSystemTheme() async{
     _isSystemTheme = true;
+    _themeMode = ThemeMode.system;
     var brightness = WidgetsBinding.instance.platformDispatcher.platformBrightness;
     _isDarkMode = brightness == Brightness.dark;
     final prefs = await SharedPreferences.getInstance();
@@ -56,7 +62,12 @@ class ThemeProvider with ChangeNotifier {
   }
 
   ThemeData get themeData {
-    return _isDarkMode ? darkTheme : lightTheme;
+    if(_themeMode == ThemeMode.system){
+    var brightness = WidgetsBinding.instance.platformDispatcher.platformBrightness;
+    return brightness == Brightness.dark ? darkTheme : lightTheme; 
+    }else{
+      return _themeMode == ThemeMode.dark ? darkTheme :lightTheme;
+    }
   }
 
   final lightTheme = ThemeData(
