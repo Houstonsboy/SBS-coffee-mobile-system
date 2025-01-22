@@ -2,11 +2,20 @@ import 'package:coffee_system/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'global.dart';
-class LoginForm extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+class LoginForm extends StatefulWidget {
 
   LoginForm({Key? key}) : super(key: key);
+
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  final TextEditingController emailController = TextEditingController();
+
+  final TextEditingController passwordController = TextEditingController();
+
+  bool _obscurePassword = true;
 
   Future<void> login(BuildContext context) async {
     final String email = emailController.text.trim();
@@ -22,11 +31,12 @@ class LoginForm extends StatelessWidget {
       // Retrieve user details
       final User? user = userCredential.user;
       final String userId = user?.uid ?? '';
-      final String username = user?.email ?? '';
+      final String useremail = user?.email ?? '';
+
 
       // Save userId and username globally
       globalUserId = userId;
-      globalUsername = username;
+      globalEmail = useremail;
 
       // Redirect to Dashboard on successful login
       Navigator.pushReplacement(
@@ -58,10 +68,21 @@ class LoginForm extends StatelessWidget {
         const SizedBox(height: 10),
         TextField(
           controller: passwordController,
-          obscureText: true,
-          decoration: const InputDecoration(
+          obscureText: _obscurePassword,
+          decoration: InputDecoration(
             labelText: "Enter Password",
             prefixIcon: Icon(Icons.lock),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                setState(() {
+                  _obscurePassword = !_obscurePassword;
+                });
+              },
+              ),
             labelStyle: TextStyle(color: Colors.black),
             prefixIconColor: Colors.black,
           ),

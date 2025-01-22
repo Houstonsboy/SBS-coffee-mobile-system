@@ -1,7 +1,6 @@
 import 'package:coffee_system/Authentication/global.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../dashboard/searchicon.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -46,10 +45,6 @@ class HomePage extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: SearchIcon(),
           ),
           Padding(
             padding: const EdgeInsets.all(15.0),

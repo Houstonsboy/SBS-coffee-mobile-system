@@ -1,5 +1,7 @@
 import 'package:coffee_system/navigation/profile.dart';
+import 'package:coffee_system/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'navigation/homepage.dart';
 import 'navigation/dashboard.dart';
 import 'navigation/addcoffee.dart';
@@ -30,20 +32,32 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
+            Padding(
+              padding:const EdgeInsets.only(left:60.0),
+            child:Image.asset(
               'images/SU-Logo.png',
               height: 60, // Adjust the height as needed
               width: 60, // Adjust the width as needed
+            ),
             ),
             const SizedBox(width: 10), // Add some space between the image and the text
           ],
         ),
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
+            ),
+            onPressed: () => themeProvider.toggleTheme(),
+            ),
+        ],
       ),
       body: _pages[_selectedIndex], // Dynamically change the body
       bottomNavigationBar: BottomNavigationBar(
