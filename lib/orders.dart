@@ -201,15 +201,15 @@ class _OrdersScreenState extends State<OrdersScreen>
                 Text(
                   'Total Orders: ${orders.length}',
                   style: const TextStyle(
-                    fontSize: 24,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
                 // Category tabs
                 SizedBox(
-                  height: 40,
+                  height: 35,
                   child: TabBar(
                     controller: _tabController,
                     isScrollable: true,
